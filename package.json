@@ -10,7 +10,7 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:tasksflow.start_issue",
+		"onCommand:tasksflow.issue",
 		"onCommand:tasksflow.issues",
 		"onCommand:tasksflow.configure"
 	],
@@ -18,7 +18,7 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "tasksflow.start_issue",
+				"command": "tasksflow.issue",
 				"title": "Tasksflow: start working on a given issue"
 			},
 			{
