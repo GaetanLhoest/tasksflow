@@ -1,7 +1,7 @@
 
 class Gitlab implements GitProvider {
 
-    getIssue(): Issue {
+    getIssue(id: string): Issue {
         throw new Error("Method not implemented.");
     }
 

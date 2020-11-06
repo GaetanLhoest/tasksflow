@@ -1,7 +1,7 @@
 
 abstract class GitProvider {
 
-    abstract getIssue(): Issue;
+    abstract getIssue(id: string): Issue;
     abstract getIssueList(): Array<Issue>;
 
 
