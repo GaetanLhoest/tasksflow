@@ -1,7 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
-import { issue } from "./commands/issue";
+import { issue, issueCommand } from "./commands/issue";
 import { configure } from "./commands/configure";
 import { issues } from "./commands/issues";
 
@@ -11,7 +11,7 @@ export function activate(context: vscode.ExtensionContext) {
   console.log('Congratulations, your extension "tasksflow" is now active!');
 
   let disposable1 = vscode.commands.registerCommand("tasksflow.issue", () => {
-    issue();
+    issueCommand();
   });
 
   let disposable2 = vscode.commands.registerCommand("tasksflow.issues", () => {
@@ -31,4 +31,4 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }
