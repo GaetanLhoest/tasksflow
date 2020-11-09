@@ -1,29 +1,44 @@
-
-
-
 export class Issue {
+  _id: string;
+  _iid: string;
+  title?: string;
+  body?: string;
+  labels?: Array<string>;
 
-    _id: string;
-    title?: string;
-    body?: string;
-    labels?: Array<string>;
+  constructor(
+    id: string,
+    iid: string,
+    title?: string,
+    body?: string,
+    labels?: Array<string>
+  ) {
+    this._id = id;
+    this._iid = iid;
+    this.title = title;
+    this.body = body;
+    this.labels = labels;
+  }
 
-    constructor(id: string,
-        title?: string,
-        body?: string,
-        labels?: Array<string>) {
-        this._id = id;
-        this.title = title;
-        this.body = body;
-        this.labels = labels;
+  getBranchName() {
+    let branchName = "";
+    if (this.title === undefined) {
+      branchName = "unknown";
+    } else {
+      branchName = this.title;
     }
+    branchName = branchName.toLowerCase();
+    branchName = branchName.replace(/\s/g, "_");
+    branchName = branchName.replace("-", "_");
+    branchName += "_#" + String(this._iid);
 
-    isBug(): boolean {
-        return false;
-    }
+    return branchName;
+  }
 
-    isFeature(): boolean {
-        return true;
-    }
+  isBug(): boolean {
+    return false;
+  }
 
+  isFeature(): boolean {
+    return true;
+  }
 }
