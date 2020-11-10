@@ -1,3 +1,4 @@
+import { print } from "graphql";
 import simpleGit, { SimpleGit } from "simple-git";
 import * as vscode from "vscode";
 import { Gitlab } from "../repositories/git_providers/gp_gitlab";
@@ -12,8 +13,11 @@ export async function issueCommand() {
     placeHolder: "E.g. 25",
     prompt: "Id of the issue",
   });
-  let gitlab = new Gitlab("https://gitlab.com/");
+  let gitlab = new Gitlab(
+    "https://gitlab.com/",
+    "gitlab-org/gitlab-vscode-extension"
+  );
   let issue = await gitlab.getIssue(issueId!);
-  await git.checkout(["-b", issue.getBranchName()]);
-  console.log("plop");
+  let listConfig = await git.checkout(["-b", issue.getBranchName()]);
+  print("plop");
 }

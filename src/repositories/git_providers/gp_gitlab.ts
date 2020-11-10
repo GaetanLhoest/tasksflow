@@ -5,17 +5,19 @@ import { GitProvider } from "../git_providers";
 
 export class Gitlab implements GitProvider {
   instanceUrl: string;
+  projectId: string;
   client: GraphQLClient;
 
-  constructor(instanceUrl: string) {
+  constructor(instanceUrl: string, projectId: string) {
     this.instanceUrl = instanceUrl;
+    this.projectId = projectId;
     const endpoint = new URL("/api/graphql", this.instanceUrl).href;
     this.client = new GraphQLClient(endpoint);
   }
 
   async getIssue(id: string): Promise<Issue> {
     let issueQuery = gql`query {
-            project(fullPath: "gitlab-org/gitlab-vscode-extension") {
+            project(fullPath: "${this.projectId}") {
               id,
               openIssuesCount,
               issues(iid:"${id}") {
