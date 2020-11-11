@@ -3,7 +3,7 @@ import simpleGit, { SimpleGit } from "simple-git";
 import * as vscode from "vscode";
 import { Gitlab } from "../repositories/git_providers/gp_gitlab";
 
-const git: SimpleGit = simpleGit("/Users/gaetanlhoest/Dev/Projects/tasksflow");
+const git: SimpleGit = simpleGit(vscode.workspace.rootPath);
 
 export async function issueCommand() {
   vscode.window.showInformationMessage("Starting to work on a given issue!");
@@ -18,6 +18,6 @@ export async function issueCommand() {
     "gitlab-org/gitlab-vscode-extension"
   );
   let issue = await gitlab.getIssue(issueId!);
-  let listConfig = await git.checkout(["-b", issue.getBranchName()]);
-  print("plop");
+  var listConfig = await git.getRemotes(true);
+  //TODO work here
 }
