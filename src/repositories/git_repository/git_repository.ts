@@ -1,5 +1,6 @@
 import simpleGit, { SimpleGit } from "simple-git";
 import * as vscode from 'vscode';
+import { GitProvider } from "../git_providers/git_provider";
 
 export class GitRepository {
   gitUrl?: string;
@@ -14,28 +15,29 @@ export class GitRepository {
   async init() {
     var listRemotes = await this.git.getRemotes(true);
     this.gitUrl = listRemotes[0].refs.fetch;
-    this.getProjectId();
-    this.getGitProviderId();
+    this.projectId = this.getProjectId();
+    this.providerId = this.getGitProviderId();
   }
 
   getProjectId() {
-
     let _projectId = this.gitUrl!.match('(?<=:).*(?=\.git)');
     if (_projectId !== null) {
-      this.projectId = _projectId[0];
+      return _projectId[0];
     }
+    return undefined;
   }
 
   getGitProviderId() {
     if (this.gitUrl?.match('gitlab') !== null) {
-      this.projectId = GitProvider.gitlab;
+      return GitProvider.gitlab;
     } else if (this.gitUrl?.match('github') !== null) {
-      this.projectId = GitProvider.github;
+      return GitProvider.github;
     } else if (this.gitUrl?.match('bitbucket') !== null) {
-      this.projectId = GitProvider.bitbucket;
+      return GitProvider.bitbucket;
     } else {
-      this.projectId = GitProvider.undefined;
+      return GitProvider.undefined;
     }
+    return undefined;
   }
 
 

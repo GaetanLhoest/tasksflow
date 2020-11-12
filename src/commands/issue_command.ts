@@ -1,6 +1,7 @@
 import { print } from "graphql";
 import simpleGit, { SimpleGit } from "simple-git";
 import * as vscode from "vscode";
+import { gitProviderUrl } from "../repositories/git_providers/git_provider";
 import { Gitlab } from "../repositories/git_providers/gp_gitlab";
 import { GitRepository } from "../repositories/git_repository/git_repository";
 
@@ -24,6 +25,6 @@ export async function issueCommand() {
     gitRepo.projectId!
   );
   let issue = await gitlab.getIssue(issueId!);
-  console.log(issue)
+  console.log(issue);
   //TODO work here
 }
