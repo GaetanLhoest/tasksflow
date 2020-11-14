@@ -25,10 +25,12 @@ export function activate(context: vscode.ExtensionContext) {
     }
   );
 
+
+
   context.subscriptions.push(disposable1);
   context.subscriptions.push(disposable2);
   context.subscriptions.push(disposable3);
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }

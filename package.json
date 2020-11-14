@@ -29,7 +29,24 @@
 				"command": "tasksflow.configure",
 				"title": "Tasksflow: configure the tasksflow extension"
 			}
-		]
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "tasksflow",
+					"title": "Tasksflow",
+					"icon": "./assets/tasksflow.svg"
+				}
+			]
+		},
+		"views": {
+			"tasksflow": [
+				{
+				"id": "tasksflowactivity",
+				"name": "Tasksflow panel"
+			}
+			]
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "yarn run compile",
