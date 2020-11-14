@@ -1,7 +1,7 @@
 import { print } from "graphql";
 import simpleGit, { SimpleGit } from "simple-git";
 import * as vscode from "vscode";
-import { gitProviderUrl } from "../repositories/git_providers/git_provider";
+import { GitProvider, gitProviderUrl } from "../repositories/git_providers/git_provider";
 import { Gitlab } from "../repositories/git_providers/gp_gitlab";
 import { GitRepository } from "../repositories/git_repository/git_repository";
 
@@ -20,6 +20,7 @@ export async function issueCommand() {
   await gitRepo.init();
   let gitRepoUrl = gitRepo.gitUrl;
   console.log(gitRepoUrl);
+  let gitProvider = new GitProvider(gitRepo);
   let gitlab = new Gitlab(
     gitProviderUrl.get(gitRepo.providerId!)!,
     gitRepo.projectId!
