@@ -1,9 +1,9 @@
 import { Issue } from "../issue";
-import { GitProvider } from "../git_providers";
+import { GitProviderInterface } from "./git_provider_interface";
 import { GraphQLClient, gql } from 'graphql-request';
 import { URL } from "url";
 
-export class Github implements GitProvider {
+export class Github implements GitProviderInterface {
   instanceUrl: string;
   projectId: string;
   client: GraphQLClient;
@@ -11,7 +11,7 @@ export class Github implements GitProvider {
   constructor(instanceUrl: string, projectId: string) {
     this.instanceUrl = instanceUrl;
     this.projectId = projectId;
-    const endpoint = new URL("/api/graphql", this.instanceUrl).href;
+    const endpoint = new URL("/graphql", this.instanceUrl).href;
     this.client = new GraphQLClient(endpoint);
   }
 

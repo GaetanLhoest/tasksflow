@@ -20,7 +20,11 @@ export class GitRepository {
   }
 
   getProjectId() {
-    let _projectId = this.gitUrl!.match('(?<=:).*(?=\.git)');
+    let _projectId = this.gitUrl!.match('(?<=git:).*(?=\.git)');
+    if (_projectId !== null) {
+      return _projectId[0];
+    }
+    _projectId = this.gitUrl!.match('(?<=https://.*/).*(?=\.git)');
     if (_projectId !== null) {
       return _projectId[0];
     }

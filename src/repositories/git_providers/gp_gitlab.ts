@@ -1,9 +1,9 @@
 import { gql, GraphQLClient } from "graphql-request";
 import { URL } from "url";
 import { Issue } from "../issue";
-import { GitProvider } from "../git_providers";
+import { GitProviderInterface } from "./git_provider_interface";
 
-export class Gitlab implements GitProvider {
+export class Gitlab implements GitProviderInterface {
   instanceUrl: string;
   projectId: string;
   client: GraphQLClient;
