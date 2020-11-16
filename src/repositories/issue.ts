@@ -1,19 +1,19 @@
 export class Issue {
   _id: string;
-  _iid: string;
+  number: string;
   title?: string;
   body?: string;
   labels?: Array<string>;
 
   constructor(
     id: string,
-    iid: string,
+    number: string,
     title?: string,
     body?: string,
     labels?: Array<string>
   ) {
     this._id = id;
-    this._iid = iid;
+    this.number = number;
     this.title = title;
     this.body = body;
     this.labels = labels;
@@ -29,7 +29,7 @@ export class Issue {
     branchName = branchName.toLowerCase();
     branchName = branchName.replace(/\s/g, "_");
     branchName = branchName.replace("-", "_");
-    branchName += "_#" + String(this._iid);
+    branchName += "_#" + String(this.number);
 
     return branchName;
   }

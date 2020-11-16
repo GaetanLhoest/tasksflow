@@ -2,17 +2,24 @@ import { Issue } from "../issue";
 import { GitProviderInterface } from "./git_provider_interface";
 import { GraphQLClient, gql } from 'graphql-request';
 import { URL } from "url";
+import { Secrets } from '../../config/secrets';
 
 export class Github implements GitProviderInterface {
   instanceUrl: string;
   projectId: string;
   client: GraphQLClient;
+  accessToken?: string;
 
   constructor(instanceUrl: string, projectId: string) {
+    this.accessToken = Secrets.githubAccessToken;
     this.instanceUrl = instanceUrl;
     this.projectId = projectId;
     const endpoint = new URL("/graphql", this.instanceUrl).href;
-    this.client = new GraphQLClient(endpoint);
+    this.client = new GraphQLClient(endpoint, {
+      headers: {
+        authorization: `Bearer ${this.accessToken}`,
+      },
+    });
   }
 
   async getIssue(id: string): Promise<Issue> {
@@ -35,14 +42,14 @@ export class Github implements GitProviderInterface {
     }`;
     const result = await this.client.request(issueQuery);
 
-    let resId = result.project.issues?.nodes[0].id;
-    let resIid = result.project.issues?.nodes[0].iid;
-    let resTitle = result.project.issues?.nodes[0].title;
-    let resBody = result.project.issues?.nodes[0].body;
-    let resLabels = result.project.issues?.nodes[0].labels.nodes.map(
-      (label: { title: string }) => label.title
+    let resId = result.repository.issue?.id;
+    let resNumber = result.repository.issue?.number;
+    let resTitle = result.repository.issue?.title;
+    let resBody = result.repository.issue?.body;
+    let resLabels = result.repository.issue?.labels.nodes.map(
+      (label: { name: string }) => label.name
     );
-    let issue = new Issue(resId, resIid, resTitle, resBody, resLabels);
+    let issue = new Issue(resId, resNumber, resTitle, resBody, resLabels);
     return issue;
   }
 
