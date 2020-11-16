@@ -3,6 +3,8 @@ import { GitProviderInterface } from "./git_provider_interface";
 import { GraphQLClient, gql } from 'graphql-request';
 import { URL } from "url";
 import { Secrets } from '../../config/secrets';
+import { TasksflowConfig } from '../../config/tasksflow_config';
+import { GitProvider } from './git_provider';
 
 export class Github implements GitProviderInterface {
   instanceUrl: string;
@@ -11,7 +13,7 @@ export class Github implements GitProviderInterface {
   accessToken?: string;
 
   constructor(instanceUrl: string, projectId: string) {
-    this.accessToken = Secrets.githubAccessToken;
+    this.accessToken = TasksflowConfig.getAccessToken(GitProvider.github);
     this.instanceUrl = instanceUrl;
     this.projectId = projectId;
     const endpoint = new URL("/graphql", this.instanceUrl).href;

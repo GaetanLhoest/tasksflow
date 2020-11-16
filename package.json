@@ -46,7 +46,22 @@
 				"name": "Tasksflow panel"
 			}
 			]
-		}
+		},
+		"configuration": {
+			"title": "Tasksflow",
+			"properties": {
+			  "tasksflow.accessToken.github": {
+				"type": ["string", "null"],
+				"default": null,
+				"description": "Github access token."
+			  },
+			  "tasksflow.accessToken.gitlab": {
+				"type": ["string", "null"],
+				"default": null,
+				"description": "Gitlab access token."
+			  }
+			}
+		  }
 	},
 	"scripts": {
 		"vscode:prepublish": "yarn run compile",
