@@ -4,32 +4,44 @@ import * as vscode from "vscode";
 import { issueCommand } from "./commands/issue_command";
 import { configureCommand } from "./commands/configure_command";
 import { issuesCommand } from "./commands/issues_command";
+import { Disposable } from "vscode";
+import { AllTasksProvider } from "./panels/all_tasks_provider";
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
   console.log('Congratulations, your extension "tasksflow" is now active!');
 
-  let disposable1 = vscode.commands.registerCommand("tasksflow.issue", () => {
-    issueCommand();
-  });
+  registerCommands(context);
+  registerPanels(context);
 
-  let disposable2 = vscode.commands.registerCommand("tasksflow.issues", () => {
-    issuesCommand();
-  });
+}
 
-  let disposable3 = vscode.commands.registerCommand(
-    "tasksflow.configure",
-    () => {
+function registerCommands(context: vscode.ExtensionContext) {
+  let commands: Array<Disposable> = [
+    vscode.commands.registerCommand("tasksflow.issue", () => {
+      issueCommand();
+    }),
+    vscode.commands.registerCommand("tasksflow.issues", () => {
+      issuesCommand();
+    }),
+    vscode.commands.registerCommand("tasksflow.configure", () => {
       configureCommand();
     }
+    )
+  ];
+  commands.map((disposable) =>
+    context.subscriptions.push(disposable)
   );
+}
 
+function registerPanels(context: vscode.ExtensionContext) {
+  context.subscriptions.push(vscode.window.registerTreeDataProvider('currentTask', new AllTasksProvider()));
 
+  vscode.window.createTreeView('currentTask', {
+    treeDataProvider: new AllTasksProvider()
+  });
 
-  context.subscriptions.push(disposable1);
-  context.subscriptions.push(disposable2);
-  context.subscriptions.push(disposable3);
 }
 
 // this method is called when your extension is deactivated

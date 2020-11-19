@@ -51,7 +51,7 @@ export class Gitlab implements GitProviderInterface {
     return issue;
   }
 
-  async getIssueList(): Promise<Issue[]> {
+  async getAllIssuesList(): Promise<Issue[]> {
     throw new Error("Method not implemented.");
   }
 }

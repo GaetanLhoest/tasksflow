@@ -2,7 +2,6 @@ import { Issue } from "../issue";
 import { GitProviderInterface } from "./git_provider_interface";
 import { GraphQLClient, gql } from 'graphql-request';
 import { URL } from "url";
-import { Secrets } from '../../config/secrets';
 import { TasksflowConfig } from '../../config/tasksflow_config';
 import { GitProvider } from './git_provider';
 
@@ -55,7 +54,36 @@ export class Github implements GitProviderInterface {
     return issue;
   }
 
-  async getIssueList(): Promise<Issue[]> {
-    throw new Error("Method not implemented.");
+  async getAllIssuesList(): Promise<Issue[]> {
+    let issueQuery = gql`query {
+      repository(name: "slim-launcher", owner: "sduduzog") {
+        createdAt
+        description
+        issues(first: 100,states:OPEN) {
+          nodes {
+            title
+            body
+            id
+            number
+            labels(first: 100) {
+              nodes {
+                name
+              }
+            }
+          }
+        }
+      }
+    }`;
+    const result = await this.client.request(issueQuery);
+    let nodes = result.repository.issues.nodes;
+    let issues: Array<Issue> = [];
+    for (let i = 0; i < nodes.length; i++) {
+      let node = nodes[i];
+      let issue = new Issue(node.id, node.number, node.title, node.body, node.labels.nodes.map(
+        (label: { name: string }) => label.name
+      ));
+      issues.push(issue);
+    }
+    return issues;
   }
 }

@@ -6,6 +6,6 @@ import { Issue } from "../issue";
 export abstract class GitProviderInterface {
 
   abstract async getIssue(id: string): Promise<Issue>;
-  abstract async getIssueList(): Promise<Issue[]>;
+  abstract async getAllIssuesList(): Promise<Issue[]>;
 
 }

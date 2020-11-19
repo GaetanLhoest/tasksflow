@@ -12,10 +12,20 @@
 	"activationEvents": [
 		"onCommand:tasksflow.issue",
 		"onCommand:tasksflow.issues",
-		"onCommand:tasksflow.configure"
+		"onCommand:tasksflow.configure",
+		"onView:currentTask"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
+		"menus": {
+            "view/title": [
+                {
+                    "command": "nodeDependencies.refreshEntry",
+                    "when": "view == currentTask",
+                    "group": "navigation"
+                }
+      ]
+    },
 		"commands": [
 			{
 				"command": "tasksflow.issue",
@@ -42,9 +52,17 @@
 		"views": {
 			"tasksflow": [
 				{
-				"id": "tasksflowactivity",
-				"name": "Tasksflow panel"
-			}
+					"id": "currentTask",
+					"name": "Current task"
+				},
+				{
+					"id": "assignedToMe",
+					"name": "Tasks assigned to me"
+				},
+				{
+					"id": "allOpened",
+					"name": "All opened tasks"
+				}
 			]
 		},
 		"configuration": {

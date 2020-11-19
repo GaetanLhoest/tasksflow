@@ -36,8 +36,8 @@ export class GitProvider implements GitProviderInterface {
     getIssue(id: string): Promise<Issue> {
         return this.gitProvider!.getIssue(id);
     }
-    getIssueList(): Promise<Issue[]> {
-        return this.gitProvider!.getIssueList();
+    getAllIssuesList(): Promise<Issue[]> {
+        return this.gitProvider!.getAllIssuesList();
     }
 
 }
