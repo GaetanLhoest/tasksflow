@@ -11,9 +11,10 @@
 	],
 	"activationEvents": [
 		"onCommand:tasksflow.issue",
+		"onCommand:tasksflow.startTask",
 		"onCommand:tasksflow.issues",
 		"onCommand:tasksflow.configure",
-		"onView:currentTask"
+		"onView:allOpened"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -21,7 +22,7 @@
             "view/title": [
                 {
                     "command": "nodeDependencies.refreshEntry",
-                    "when": "view == currentTask",
+                    "when": "view == allOpened",
                     "group": "navigation"
                 }
       ]
@@ -30,6 +31,10 @@
 			{
 				"command": "tasksflow.issue",
 				"title": "Tasksflow: start working on a given issue"
+			},
+			{
+				"command": "tasksflow.startTask",
+				"title": "Tasksflow: start working on a given task"
 			},
 			{
 				"command": "tasksflow.issues",

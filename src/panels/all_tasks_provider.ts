@@ -5,6 +5,7 @@ import * as fs from 'fs';
 import { GitRepository } from "../repositories/git_repository/git_repository";
 import { GitProvider } from '../repositories/git_providers/git_provider';
 import { Issue } from '../repositories/issue';
+import { start } from "repl";
 
 export class AllTasksProvider<T> implements TreeDataProvider<Task>{
 
@@ -38,7 +39,7 @@ export class AllTasksProvider<T> implements TreeDataProvider<Task>{
     private async getAllTasks(): Promise<Task[]> {
 
         const toTask = (issue: Issue): Task => {
-            return new Task(issue.title!);
+            return new Task(issue.title!, issue.body!, { command: "tasksflow.startTask", title: "", arguments: [issue] });
         };
 
         let gitRepo = new GitRepository();
@@ -89,20 +90,41 @@ export class AllTasksProvider<T> implements TreeDataProvider<Task>{
 
 }
 
+class TaskClick implements vscode.Command {
+    title: string;
+    command: string;
+    tooltip?: string | undefined;
+    arguments?: any[] | undefined;
+
+    constructor(
+        issue: Issue
+    ) {
+        this.title = "Start working on this task";
+        this.command = 'tasksflow.startTask';
+        this.tooltip = "Start working on the task, creating an appropriate branch and adequate commit messages";
+        this.arguments = [issue];
+    }
+
+}
+
 export class Task extends vscode.TreeItem {
 
     constructor(
         public readonly label: string,
+        public readonly tooltip: string,
+        public readonly command: vscode.Command,
     ) {
-        super(label);
 
-        this.tooltip = `${this.label}`;
+        super(label,);
+        this.tooltip = tooltip;
     }
 
     iconPath = {
         light: path.join(__filename, '..', '..', 'resources', 'light', 'dependency.svg'),
         dark: path.join(__filename, '..', '..', 'resources', 'dark', 'dependency.svg')
     };
+
+
 
     contextValue = 'dependency';
 }

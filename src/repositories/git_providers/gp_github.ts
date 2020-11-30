@@ -8,6 +8,8 @@ import { GitProvider } from './git_provider';
 export class Github implements GitProviderInterface {
   instanceUrl: string;
   projectId: string;
+  projectName: string;
+  projectOwner: string;
   client: GraphQLClient;
   accessToken?: string;
 
@@ -15,6 +17,8 @@ export class Github implements GitProviderInterface {
     this.accessToken = TasksflowConfig.getAccessToken(GitProvider.github);
     this.instanceUrl = instanceUrl;
     this.projectId = projectId;
+    this.projectName = projectId.split('/')[1];
+    this.projectOwner = projectId.split('/')[0];
     const endpoint = new URL("/graphql", this.instanceUrl).href;
     this.client = new GraphQLClient(endpoint, {
       headers: {
@@ -25,7 +29,7 @@ export class Github implements GitProviderInterface {
 
   async getIssue(id: string): Promise<Issue> {
     let issueQuery = gql`query { 
-      repository(name: "slim-launcher", owner:"sduduzog") { 
+      repository(name: "${this.projectName}", owner:"${this.projectOwner}") { 
         createdAt,
         description,
         issue(number:46){
@@ -56,15 +60,15 @@ export class Github implements GitProviderInterface {
 
   async getAllIssuesList(): Promise<Issue[]> {
     let issueQuery = gql`query {
-      repository(name: "slim-launcher", owner: "sduduzog") {
-        createdAt
-        description
+      repository(name: "${this.projectName}", owner:"${this.projectOwner}") {
+        createdAt,
+        description,
         issues(first: 100,states:OPEN) {
           nodes {
-            title
-            body
-            id
-            number
+            title,
+            body,
+            id,
+            number,
             labels(first: 100) {
               nodes {
                 name

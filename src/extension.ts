@@ -6,6 +6,7 @@ import { configureCommand } from "./commands/configure_command";
 import { issuesCommand } from "./commands/issues_command";
 import { Disposable } from "vscode";
 import { AllTasksProvider } from "./panels/all_tasks_provider";
+import { startTaskCommand } from "./commands/start_task_command";
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -22,6 +23,9 @@ function registerCommands(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand("tasksflow.issue", () => {
       issueCommand();
     }),
+    vscode.commands.registerCommand("tasksflow.startTask", (issue) => {
+      startTaskCommand(issue);
+    }),
     vscode.commands.registerCommand("tasksflow.issues", () => {
       issuesCommand();
     }),
@@ -36,9 +40,9 @@ function registerCommands(context: vscode.ExtensionContext) {
 }
 
 function registerPanels(context: vscode.ExtensionContext) {
-  context.subscriptions.push(vscode.window.registerTreeDataProvider('currentTask', new AllTasksProvider()));
+  context.subscriptions.push(vscode.window.registerTreeDataProvider('allOpened', new AllTasksProvider()));
 
-  vscode.window.createTreeView('currentTask', {
+  vscode.window.createTreeView('allOpened', {
     treeDataProvider: new AllTasksProvider()
   });
 
