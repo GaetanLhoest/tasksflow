@@ -6,8 +6,9 @@ import { Issue } from '../repositories/issue';
 const git: SimpleGit = simpleGit(vscode.workspace.rootPath);
 
 export async function startTaskCommand(issue: Issue) {
-    console.log("Plop");
     vscode.window.showInformationMessage(`Starting to work on the task number ${issue.number}!`);
+    const panel = vscode.window.createWebviewPanel("taskView", `Taskflow - Task ${issue.number}`, vscode.ViewColumn.One, {});
+    panel.webview.html = getWebviewContent(issue);
     /*let issueId;
     issueId = await vscode.window.showInputBox({
         ignoreFocusOut: true,
@@ -22,4 +23,19 @@ export async function startTaskCommand(issue: Issue) {
     let gitProvider = new GitProvider(gitRepo);
     console.log(issue);*/
     //TODO work here
+}
+
+function getWebviewContent(issue: Issue) {
+    return `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Cat Coding</title>
+  </head>
+  <body>
+      <h1>${issue.title}</h1>
+      <p>${issue.body}</p>
+  </body>
+  </html>`;
 }
