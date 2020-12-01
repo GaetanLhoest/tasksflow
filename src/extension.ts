@@ -8,6 +8,11 @@ import { Disposable } from "vscode";
 import { AllTasksProvider } from "./panels/all_tasks_provider";
 import { startTaskCommand } from "./commands/start_task_command";
 
+export class Panels {
+  public static startTaskPanel: vscode.WebviewPanel | undefined = undefined;
+}
+
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -19,6 +24,7 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 function registerCommands(context: vscode.ExtensionContext) {
+
   let commands: Array<Disposable> = [
     vscode.commands.registerCommand("tasksflow.issue", () => {
       issueCommand();

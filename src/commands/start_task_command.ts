@@ -1,14 +1,25 @@
 import simpleGit, { SimpleGit } from "simple-git";
 import * as vscode from "vscode";
-import { GitRepository } from "../repositories/git_repository/git_repository";
-import { GitProvider } from "../repositories/git_providers/git_provider";
+import { WebviewPanel } from "vscode";
+import { Panels } from "../extension";
 import { Issue } from '../repositories/issue';
 const git: SimpleGit = simpleGit(vscode.workspace.rootPath);
 
 export async function startTaskCommand(issue: Issue) {
-    vscode.window.showInformationMessage(`Starting to work on the task number ${issue.number}!`);
-    const panel = vscode.window.createWebviewPanel("taskView", `Taskflow - Task ${issue.number}`, vscode.ViewColumn.One, {});
-    panel.webview.html = getWebviewContent(issue);
+
+    const columnToShowIn = vscode.window.activeTextEditor
+        ? vscode.window.activeTextEditor.viewColumn
+        : undefined;
+
+    if (Panels.startTaskPanel) {
+        Panels.startTaskPanel.title = `Taskflow - Task ${issue.number}`;
+        Panels.startTaskPanel.reveal(columnToShowIn);
+    } else {
+        Panels.startTaskPanel = vscode.window.createWebviewPanel("taskView", `Taskflow - Task ${issue.number}`, vscode.ViewColumn.One, {});
+
+    }
+    Panels.startTaskPanel.webview.html = getWebviewContent(issue);
+
     /*let issueId;
     issueId = await vscode.window.showInputBox({
         ignoreFocusOut: true,
