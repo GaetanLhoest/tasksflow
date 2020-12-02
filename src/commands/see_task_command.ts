@@ -33,14 +33,13 @@ function getWebviewContent(issue: Issue) {
       <title>Cat Coding</title>
   </head>
   <body>
-      <button onclick="useAdvise()">Start working on this task</button>
+      <button onclick=startTask()">Start working on this task</button>
       <h1>${issue.title}</h1>
       <p>${issue.bodyHTML}</p>
   </body>
   <script>
   const vscode = acquireVsCodeApi();
-  function useAdvise(){
-    console.log("Coucou");
+  function startTask(){
     vscode.postMessage({command: 'start'})
   }
   </script>
