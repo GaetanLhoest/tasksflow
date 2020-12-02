@@ -39,7 +39,7 @@ export class AllTasksProvider<T> implements TreeDataProvider<Task>{
     private async getAllTasks(): Promise<Task[]> {
 
         const toTask = (issue: Issue): Task => {
-            return new Task(issue.title!, issue.body!, { command: "tasksflow.startTask", title: "", arguments: [issue] });
+            return new Task(issue.title!, issue.body!, { command: "tasksflow.seeTask", title: "", arguments: [issue] });
         };
 
         let gitRepo = new GitRepository();
@@ -52,26 +52,6 @@ export class AllTasksProvider<T> implements TreeDataProvider<Task>{
 
     private getDepsInPackageJson(packageJsonPath: string): Task[] {
         if (this.pathExists(packageJsonPath)) {
-            /*const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
-
-            const toDep = (moduleName: string, version: string): Task => {
-                if (this.pathExists(path.join(this.workspaceRoot, 'node_modules', moduleName))) {
-                    return new Task(moduleName, version, vscode.TreeItemCollapsibleState.Collapsed);
-                } else {
-                    return new Task(moduleName, version, vscode.TreeItemCollapsibleState.None, {
-                        command: 'extension.openPackageOnNpm',
-                        title: '',
-                        arguments: [moduleName]
-                    });
-                }
-            };
-
-            const deps = packageJson.dependencies
-                ? Object.keys(packageJson.dependencies).map(dep => toDep(dep, packageJson.dependencies[dep]))
-                : [];
-            const devDeps = packageJson.devDependencies
-                ? Object.keys(packageJson.devDependencies).map(dep => toDep(dep, packageJson.devDependencies[dep]))
-                : [];*/
             return [];
         } else {
             return [];
@@ -86,23 +66,6 @@ export class AllTasksProvider<T> implements TreeDataProvider<Task>{
         }
 
         return true;
-    }
-
-}
-
-class TaskClick implements vscode.Command {
-    title: string;
-    command: string;
-    tooltip?: string | undefined;
-    arguments?: any[] | undefined;
-
-    constructor(
-        issue: Issue
-    ) {
-        this.title = "Start working on this task";
-        this.command = 'tasksflow.startTask';
-        this.tooltip = "Start working on the task, creating an appropriate branch and adequate commit messages";
-        this.arguments = [issue];
     }
 
 }

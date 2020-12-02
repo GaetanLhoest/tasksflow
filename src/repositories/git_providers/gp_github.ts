@@ -67,6 +67,7 @@ export class Github implements GitProviderInterface {
           nodes {
             title,
             body,
+            bodyHTML,
             id,
             number,
             labels(first: 100) {
@@ -83,7 +84,7 @@ export class Github implements GitProviderInterface {
     let issues: Array<Issue> = [];
     for (let i = 0; i < nodes.length; i++) {
       let node = nodes[i];
-      let issue = new Issue(node.id, node.number, node.title, node.body, node.labels.nodes.map(
+      let issue = new Issue(node.id, node.number, node.title, node.body, node.bodyHTML, node.labels.nodes.map(
         (label: { name: string }) => label.name
       ));
       issues.push(issue);

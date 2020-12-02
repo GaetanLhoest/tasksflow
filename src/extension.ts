@@ -6,6 +6,7 @@ import { configureCommand } from "./commands/configure_command";
 import { issuesCommand } from "./commands/issues_command";
 import { Disposable } from "vscode";
 import { AllTasksProvider } from "./panels/all_tasks_provider";
+import { seeTaskCommand } from "./commands/see_task_command";
 import { startTaskCommand } from "./commands/start_task_command";
 
 export class Panels {
@@ -29,8 +30,11 @@ function registerCommands(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand("tasksflow.issue", () => {
       issueCommand();
     }),
-    vscode.commands.registerCommand("tasksflow.startTask", (issue) => {
-      startTaskCommand(issue);
+    vscode.commands.registerCommand("tasksflow.seeTask", (issue) => {
+      seeTaskCommand(issue);
+    }),
+    vscode.commands.registerCommand("tasksflow.startTask", () => {
+      startTaskCommand();
     }),
     vscode.commands.registerCommand("tasksflow.issues", () => {
       issuesCommand();

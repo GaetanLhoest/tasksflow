@@ -11,6 +11,7 @@
 	],
 	"activationEvents": [
 		"onCommand:tasksflow.issue",
+		"onCommand:tasksflow.seeTask",
 		"onCommand:tasksflow.startTask",
 		"onCommand:tasksflow.issues",
 		"onCommand:tasksflow.configure",
@@ -31,6 +32,10 @@
 			{
 				"command": "tasksflow.issue",
 				"title": "Tasksflow: start working on a given issue"
+			},
+			{
+				"command": "tasksflow.seeTask",
+				"title": "Tasksflow: see a given task"
 			},
 			{
 				"command": "tasksflow.startTask",
