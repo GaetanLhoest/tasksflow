@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { Panels } from "../extension";
 import { Issue } from '../repositories/issue';
+import { Task } from "../repositories/task";
 
 export async function seeTaskCommand(issue: Issue) {
 
@@ -19,7 +20,8 @@ export async function seeTaskCommand(issue: Issue) {
     Panels.startTaskPanel.webview.onDidReceiveMessage(message => {
         switch (message.command) {
             case "start":
-                console.log(`Start working on task ${issue}`);
+                let task = new Task(issue);
+                task.start();
         }
     });
 }
@@ -30,10 +32,10 @@ function getWebviewContent(issue: Issue) {
   <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Cat Coding</title>
+      <title>Task view</title>
   </head>
   <body>
-      <button onclick=startTask()">Start working on this task</button>
+      <button onclick=startTask()>Start working on this task</button>
       <h1>${issue.title}</h1>
       <p>${issue.bodyHTML}</p>
   </body>
